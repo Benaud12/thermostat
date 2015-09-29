@@ -39,7 +39,6 @@ describe('Thermostat', function() {
       var diff = (thermostat.maxTemp - thermostat.temperature);
       for (diff; diff > 0; diff--) {
         thermostat.temperatureRaise();
-        console.log(thermostat.temperature)
       };
 
       expect(function() {thermostat.temperatureRaise();}).toThrowError('At maximum temperature');
@@ -73,6 +72,16 @@ describe('Thermostat', function() {
       thermostat.temperatureRaise();
       thermostat.reset();
       expect(thermostat.temperature).toEqual(20);
+    });
+
+    it('reduced to 25 if above when power saving is turned on', function() {
+      thermostat.togglePowerSaving();
+      for(var i = 10; i > 0; i--) {
+        thermostat.temperatureRaise();
+      };
+
+      thermostat.togglePowerSaving();
+      expect(thermostat.temperature).toEqual(25);
     });
 
   });
